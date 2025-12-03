@@ -1,0 +1,51 @@
+@import url("https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css");
+@import url('https://fonts.googleapis.com/css2?family=Dela+Gothic+One&display=swap');
+
+/* FONTS - top level, outside any selector */
+
+@font-face {
+  font-family: 'Neulis_Sans_Black';
+  src: url('./fonts/Neulis_Sans_Black.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+  unicode-range: U+0000-FFFF;
+}
+
+@font-face {
+  font-family: 'Neulis_Sans_Semi_Bold';
+  src: url('./fonts/Neulis_Sans_Semi_Bold.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+  unicode-range: U+0000-FFFF;
+}
+
+@font-face {
+  font-family: 'Nicon-Black';
+  src: url('./fonts/nicon-black.woff2') format('woff2');
+  font-display: swap;
+  font-weight: normal;
+  font-weight: 900;
+  font-style: normal;
+}
+
+/* GLOBAL STYLES */
+* {
+  -webkit-font-smoothing: antialiased;
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  height: 100%;
+}
+
+/* a blue color as a generic focus style */
+button:focus-visible {
+  outline: 2px solid #4a90e2 !important;
+  outline: -webkit-focus-ring-color auto 5px !important;
+}
+
+a {
+  text-decoration: none;
+}
