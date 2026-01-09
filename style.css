@@ -3,105 +3,106 @@ body {
   display: flex;
   justify-content: center;  /* horizontal centering */
   align-items: flex-start;  /* optional: vertical alignment */
-  min-height: 100vh;
+  height: 100vh;
+  overflow: hidden;
   margin: 0;
   padding: 0;
 }
 
 .iphone {
   background-color: #f34f22;
-  width: 378px; /* same as main container */
-  min-height: 932px;
+  width: 80vw; /* same as main container */
+  min-height: 0px;
   margin: 0 auto; /* centers horizontally */
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 1vh;
+  justify-content: center;
+  
 }
 
 .iphone .main-container {
-  width: 378px;
-  height: 445px;
+  aspect-ratio: 5 / 6;
+  width: 100%;
   position: relative;
-  margin-top: 108px;
+  margin-top: 8vh;
   background-color: #ffffff;
-  border-radius: 22px;
+  border-radius: 2.2vh;
 }
 
 .iphone .background-graphic {
   position: absolute;
-  top: calc(50.00% - 220px);
-  left: calc(50.00% - 187px);
-  width: 374px;
-  height: 373px;
+  top: 1%;
+  left: 50%;
+  transform: translate(-50%, 0%);
+  aspect-ratio: 1;
+  width: 98%;
   display: flex;
   background-image: url(./img/background.svg);
   background-size: 100% 100%;
 }
 
 .iphone .logo {
-  margin-top: 4.7px;
-  width: 27.23px;
-  height: 13.45px;
-  margin-left: 174.7px;
+  position: absolute;
+  width: 8%;
+  aspect-ratio: 2 / 1;
+  top: 1%;
+  left: 50%;
+  transform: translateX(-50%);
 }
 
 .iphone .divider {
   display: flex;
   flex-direction: column;
-  width: 378px;
-  height: 445px;
+  width: 100%;
+  height: 100%;
   align-items: flex-start;
-  padding: 0px 2px 0px 20px;
+  padding: 0px 0.5% 3% 5%;
   position: absolute;
-  top: 0;
-  left: 0;
-  border-radius: 22px;
   overflow: hidden;
 }
 
 .iphone .top {
   display: flex;
-  height: 249px;
-  align-items: flex-end;
-  justify-content: space-between;
-  padding: 5px 0px 15px;
-  position: relative;
-  align-self: stretch;
+  justify-content: space-between; 
+  align-items: flex-end; 
+  padding: 2% 0px 0px 0px;  
   width: 100%;
+  height: auto;                  
 }
 
 .iphone .skills {
+  top: 10%;
   position: relative;
-  width: 158px;
-  height: 200px;
+  width: 40%;
+  height: auto;
+  overflow: visible;
 }
 
 .iphone .background-graphic-s {
-  position: absolute;
-  top: 0;
-  left: 1px;
-  width: 158px;
-  height: 199px;
-  display: flex;
-  background-image: url(./img/rectangle-3.svg);
-  background-size: 100% 100%;
+  min-width: 40vw;
+  width: 100%;
+  aspect-ratio: 5 / 6;
+  background-image: url(./img/rectangle-6.svg);
+  background-repeat: no-repeat;
+  background-position: left top;  
+  background-size: contain;
+  
 }
-
-.iphone .rectangle {
-  margin-top: 1.8px;
-  width: 150.24px;
-  height: 195.9px;
-  margin-left: 1.6px;
-}
+/*
+.iphone .background-graphic-s rectangle {
+  display: block;
+  width: 100%;        
+  height: auto;        
+}*/
 
 .iphone .div {
   display: flex;
   flex-direction: column;
-  width: 158px;
-  height: 200px;
+  width: auto;
+  height: auto;
   align-items: flex-start;
-  gap: 15px;
-  padding: 5px 0px 0px 7px;
+  padding: 8% 0px 0px 7%;
   position: absolute;
   top: 0;
   left: 0;
@@ -109,11 +110,11 @@ body {
 
 .iphone .frame {
   display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 6px 0px 6px 6px;
+  align-items: center;;
   position: relative;
   align-self: stretch;
+  margin-bottom: 2vh;
+  padding: 0px 0px 0px 3%;
   width: 100%;
   flex: 0 0 auto;
 }
@@ -121,14 +122,13 @@ body {
 .iphone .text-wrapper {
   position: relative;
   width: fit-content;
-  margin-top: -1.00px;
   opacity: 0.5;
   font-family: /*"Neulis_Sans_Semi_Bold",*/ Noto Sans JP;
   font-weight: 600;
   color: #000000;
-  font-size: 9px;
+  font-size: 1vh;
   letter-spacing: 0;
-  line-height: 7.9px;
+  line-height: 1vh;
   white-space: nowrap;
 }
 
@@ -136,7 +136,7 @@ body {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 5px;
+  gap: 0.5vh;
   position: relative;
   align-self: stretch;
   width: 100%;
@@ -146,15 +146,16 @@ body {
 .iphone .frame-2 {
   display: inline-flex;
   align-items: center;
-  gap: 5px;
+  gap: 0.5vh;
   position: relative;
   flex: 0 0 auto;
 }
 
 .iphone .img {
   position: relative;
-  width: 24px;
-  height: 24px;
+  width: auto;
+  height: 2.8vh;
+  aspect-ratio: 1;
 }
 
 .iphone .text-wrapper-2 {
@@ -163,16 +164,16 @@ body {
   font-family: /*"Neulis_Sans_Black",*/ Noto Sans JP;
   font-weight: 900;
   color: #1d1c22;
-  font-size: 12px;
+  font-size: 1.3vh;
   letter-spacing: 0;
-  line-height: 12.3px;
+  line-height: 1.3vh;
   white-space: nowrap;
 }
 
 .iphone .sidebar {
   display: flex;
   flex-direction: column;
-  width: 25px;
+  width: 7.5%;
   align-items: flex-start;
   position: relative;
   align-self: stretch;
@@ -181,8 +182,8 @@ body {
 .iphone .lang-switch-eng {
   display: flex;  
   flex-direction: column;  
-  width: 22px;                 
-  height: 44px;                
+  width: 87%;                 
+  aspect-ratio: 1 / 2;                
   border-radius: 999px;
   overflow: hidden;
   background-color: #0b030b;
@@ -200,32 +201,39 @@ body {
 
 .iphone .lang-switch-eng .eng .rectangle-2,
 .iphone .lang-switch-eng .jp .rectangle-2 {
-  position: absolute;          
-  width: 20px;                 
-  height: 24px;
-  top: 50%;                    
-  left: 50%;                   
-  transform: translate(-50%, -50%);
+  position: absolute;
+  top: 5%;
+  bottom: auto;
+  aspect-ratio: 4 / 5;
+  inset: 10%;
   background-color: #323144;
-  border-radius: 744px;
+  border-radius: 999px;
   opacity: 0;                  
   transition: opacity 0.3s ease;
   pointer-events: none;        
 }
 
-.iphone .lang-switch-eng .text-wrapper-3 {
+.iphone .text-wrapper-3 {
   position: relative;
   z-index: 1;                  
   font-family: /*"Neulis_Sans_Black",*/ Noto Sans JP;
   font-weight: 900;
-  font-size: 6px;
+  font-size: 0.8vh;
   color: #ffffff;
   white-space: nowrap;
 }
 
-.iphone .lang-switch-eng .eng.active .rectangle-2,
+.iphone .lang-switch-eng .eng.active .rectangle-2{
+  opacity: 1;
+  top: 5%;
+  bottom: auto;
+  
+}
 .iphone .lang-switch-eng .jp.active .rectangle-2 {
   opacity: 1;
+  top: auto;
+  bottom: 5%;
+  
 }
 
 .lang-txt {
@@ -237,9 +245,9 @@ body {
 
 .iphone .mid {
   display: flex;
-  height: 126px;
+  height: 100%;
   align-items: center;
-  padding: 0px 0px 10px;
+  padding: 0px 0px 0%;
   position: relative;
   align-self: stretch;
   width: 100%;
@@ -253,23 +261,23 @@ body {
   font-weight: 900;
   white-space: pre-line;
   color: #ffffff;
-  font-size: 39px;
+  font-size: 3.7vh;
   letter-spacing: 0;
-  line-height: 35px;
+  line-height: 3.7vh;
   z-index: 9999;
 }
 
 .element-generalist.lang-jp {
   font-family: 'Dela Gothic One', sans-serif;
-  font-size: 45px;
-  line-height: 45px;
+  font-size: 4vh;
+  line-height: 4vh;
 }
 
 .iphone .bottom {
   position: relative;
   align-self: stretch;
   width: 100%;
-  height: 70px;
+  height: auto;
   display: flex;          /* enables flex layout */
   align-items: center;    /* vertical centering */
   justify-content: flex-start;
@@ -277,131 +285,379 @@ body {
 
 .iphone .bottom .software_list {
   display: flex;
-  width: 212px;
-  height: 48px;
+  height: auto;
   display: flex;
   position: relative;
   flex-direction: row;
-  align-items: center;
+  align-items: left;
   justify-content: flex-start;
-  gap: 3px;
-  overflow: hidden;
+  width: 100%;
+  gap: 2%;
 }
 
 .iphone .bottom .software_list .sl_img_frame {
-  width: 100%;             /* fill parent width */
-  height: 100%;            /* fill parent height */
-  border-radius: 11px;     /* rounded corners */
-  background-size: cover;  /* fill frame, keep aspect ratio */
+  aspect-ratio: 3 / 2;             
+  height: 5.5vh;            
+  border-radius: 1vh;     
+  background-size: cover;  
   background-position: center;
   background-repeat: no-repeat;
   background-color: #f34f22;
-
-  display: flex;           /* center child (SVG) */
+  display: flex;           
   align-items: center;
   justify-content: center;
+  cursor: pointer;
+  position: relative;
 }
 
-.iphone .overlay-image {
+.iphone .bottom .software_list .sl_img_frame .icon {
+  aspect-ratio: 1;             
+  height: 60%;     
+  transition: opacity 0.3s ease;
+  opacity: 1;  
+}
+
+.iphone .bottom .software_list .sl_img_frame .software-desc {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none; 
+  padding: 5%; 
+   
+}
+
+/* Desktop Hover Effects */
+.iphone .bottom .software_list .sl_img_frame:hover .icon {
+  opacity: 0;
+}
+
+.iphone .bottom .software_list .sl_img_frame:hover .software-desc {
+  opacity: 1;
+}
+
+/* Mobile/Tablet Tap Effects */
+.iphone .bottom .software_list .sl_img_frame.active .icon {
+  opacity: 0;
+}
+
+.iphone .bottom .software_list .sl_img_frame.active .software-desc {
+  opacity: 1;
+}
+
+.iphone .overlay-image { /*OVERLAY IMAGE OVERLAY IMAGE OVERLAY IMAGE OVERLAY IMAGE OVERLAY IMAGE OVERLAY IMAGE OVERLAY IMAGE OVERLAY IMAGE OVERLAY IMAGE*/
   pointer-events: none;
   position: absolute;
-  top: -54px;
-  left: 110px;
-  width: 289px;
-  height: 552px;
-  aspect-ratio: 0.52;
+  top: -12%;
+  left: 30%;
+  height: 55vh;
   object-fit: cover;
-
-  z-index: 9998;   /* make sure it's above everything */
+  z-index: 9998;   
 }
 
 .iphone .menu-container {
   display: flex;
-  width: 378px;
-  height: 154px;
-  position: relative;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: center;
-  gap: 10px;
-  padding: 20px 20px 10px;
-  background-color: #ffffff;
-  border-radius: 22px;
-  overflow: hidden;
-}
-
-.iphone .menu-container .image-container {
+  flex-direction: row;
+  justify-content: space-around;
+  padding: 3%;
   width: 100%;
-  height: 100%; 
-  gap: 10px;
-  display: flex;
   align-items: center;
-  justify-content: center;
+  background-color: #ffffff;
+  border-radius: 2.2vh;
 }
 
-.iphone .menu-container .image-container .menuframe {
+.menu-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.menuframe {
   position: relative;
-  width: 106px;       /* adjust as needed */
-  height: 100%;
-  border-radius: 11px;
+  width: 11vh;
+  aspect-ratio: 1 / 1;
+  border-radius: 1vh;
   overflow: hidden;
   cursor: pointer;
-  flex-shrink: 0;     /* prevent shrinking in flex container */
 }
 
-.iphone .menu-container .image-container .menuframe .bg-default,
-.iphone .menu-container .image-container .menuframe .bg-hover {
+.menuframe .bg-default,
+.menuframe .bg-hover {
   position: absolute;
   inset: 0;
-  border-radius: 11px;
   background-size: cover;
   background-position: center;
   transition: opacity 0.3s ease;
 }
 
-.iphone .menu-container .image-container .menuframe .bg-default {
-  opacity: 1;         /* visible by default */
-}
+.menuframe .bg-default { opacity: 1; }
+.menuframe .bg-hover   { opacity: 0; }
 
-.iphone .menu-container .image-container .menuframe .bg-hover {
-  opacity: 0;         /* hidden by default */
-}
+/* Desktop hover */
+.menuframe:hover .bg-default { opacity: 0; }
+.menuframe:hover .bg-hover   { opacity: 1; }
 
-.iphone .menu-container .image-container .menuframe:hover .bg-default {
-  opacity: 0;
-}
+/* Mobile tap */
+.menu-item.active .bg-default { opacity: 0; }
+.menu-item.active .bg-hover   { opacity: 1; }
 
-.iphone .menu-container .image-container .menuframe:hover .bg-hover {
-  opacity: 1;
-}
 
-/* Mobile tap activation */
-.iphone .menu-container .image-container .menuframe.active .bg-default {
-  opacity: 0;
-}
-
-.iphone .menu-container .image-container .menuframe.active .bg-hover {
-  opacity: 1;
-}
-
-.iphone .menu-container .title-container {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
+.iphone .menu-title {
   position: relative;
-  flex: 0 0 auto;
-}
-
-.iphone .text-wrapper-5 {
-  position: relative;
-  width: 106px;
-  margin-top: -1.00px;
+  width: 100%;
   opacity: 0.5;
+  margin-top: 10%;
   font-family: /* "Neulis_Sans_Black",*/ Noto Sans JP;
   font-weight: 900;
   color: #080206;
-  font-size: 9px;
+  font-size: 1vh;
   text-align: center;
   letter-spacing: 0;
-  line-height: 7.9px;
+  line-height: 1vh;
 }
+
+/* =========================
+    SHORT SCREENS (iPhone SE, Small Androids)
+========================= */
+@media (max-height: 670px) and (max-width: 480px) {
+
+.iphone .frame {
+  margin-bottom: 3vh; 
+}
+
+.iphone .element-generalist {
+  font-size: 4.5vh;
+  line-height: 4.5vh;
+}
+
+.iphone .overlay-image {
+  height: 48vh;
+  top: -5%;
+}
+}
+
+/* =========================
+    TABLET (768px - 1439px)
+========================= */
+@media (min-width: 768px) and (max-width: 1023px) {
+
+body {
+  align-items: center; 
+}
+
+.iphone .main-container {
+  margin-top: 5%;
+  }
+
+.iphone .background-graphic-s {
+  min-width: 0; 
+  background-image: url(./img/rectangle-5.svg);
+  background-size: contain;
+  aspect-ratio: 4 / 3;
+  width: 90%;
+}
+
+.iphone .divider {
+  width: 100%;
+  height: 100%; 
+}
+
+.iphone .skills {
+  width: 100%;
+  position: relative;
+  display: flex;
+}
+
+.iphone .div {
+  padding: 4% 0 0 5%;
+}
+
+.iphone .frame {
+  margin-bottom: 10%;
+}
+
+.iphone .text-wrapper {
+  font-size: 1.5vh;
+  line-height: 1.5vh;
+}
+
+.iphone .skill-list {
+  gap: 1.3vh;
+}
+
+.iphone .frame-2 {
+  gap: 1vh;
+}
+
+.iphone .img {
+  height: 4vh; 
+}
+
+.iphone .text-wrapper-2 {
+  font-size: 2.5vh;
+  line-height: 2.5vh;
+}
+
+.iphone .text-wrapper-3 {
+  font-size: 1.2vh;
+}
+
+.menuframe {
+  width: 17vh;
+}
+
+.iphone .menu-title {
+  font-size: 1.5vh;
+  line-height: 1.5vh;
+}
+
+.iphone .bottom .software_list .sl_img_frame {           
+  height: 9vh; 
+}
+
+.iphone .element-generalist {
+  font-size: 6vh;
+  line-height: 6vh;
+}
+
+.element-generalist.lang-jp {
+  font-size: 6vh;
+  line-height: 6vh;
+}
+
+
+.iphone .overlay-image { 
+  top: -3%;
+  left: 47%;
+  height: 76vh;  
+}
+}
+
+/* =========================
+   TABLET LANDSCAPE AND DESKTOP (1024+)
+========================= */
+@media (min-width: 1024px) { /*  TABLET LANDSCAPE TABLET LANDSCAPE TABLET LANDSCAPE TABLET LANDSCAPE TABLET LANDSCAPE*/
+
+body {
+  align-items: center; 
+}
+
+.iphone { 
+  width: fit-content;
+  height: 100dvh;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 1vw;
+}
+
+.iphone .main-container {
+  height: 80vh;
+  width: auto; 
+  min-width: 15vh;
+  order: 2;
+  border-radius: 3.7vh;
+  margin-top: 0;
+  }
+  
+.iphone .divider {
+  width: 100%;
+  height: 100%; 
+}
+
+.iphone .skills {
+  width: 100%;
+  position: relative;
+  display: flex;
+}
+
+.iphone .div {
+  padding: 4% 0 0 5%;
+}
+
+.iphone .frame {
+  margin-bottom: 10%;
+}
+
+.iphone .text-wrapper-3 {
+  font-size: 1.3vh;
+}
+
+
+.iphone .text-wrapper {
+  font-size: 2vh;
+  line-height: 2vh;
+}
+
+.iphone .skill-list {
+  gap: 0.8vh;
+}
+
+.iphone .background-graphic-s {
+  min-width: 0; 
+  background-image: url(./img/rectangle-5.svg);
+  background-size: contain;
+  aspect-ratio: 4 / 3;
+  width: 90%;
+}
+
+
+.iphone .frame-2 {
+  gap: 1vh;
+}
+
+.iphone .img {
+  height: 4.5vh; 
+}
+
+.iphone .text-wrapper-2 {
+  font-size: 3vh;
+  line-height: 2.5vh;
+}
+
+.iphone .menu-container {
+  order: 1;
+  padding: 0.5vh 2vh;
+  width: auto;
+  min-width: 15vh;
+  height: 80vh;
+  flex-direction: column;
+  border-radius: 2.5vh;
+  }
+
+.menuframe {
+  width: 20vh;
+}
+
+.iphone .menu-title {
+  font-size: 1.5vh;
+  line-height: 1.5vh;
+}
+
+.iphone .bottom .software_list .sl_img_frame {
+  aspect-ratio: 1 / 1;             
+  height: 10vh;
+    
+}
+
+.iphone .element-generalist {
+  font-size: 6.3vh;
+  line-height: 6.3vh;
+}
+
+.element-generalist.lang-jp {
+  font-size: 6.3vh;
+  line-height: 6.3vh;
+}
+
+.iphone .overlay-image { 
+  top: -12%;
+  left: 35%;
+  height: 100vh;  
+}
+}
+
