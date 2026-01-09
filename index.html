@@ -6,7 +6,7 @@
 	<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;600;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="globals.css" />
     <link rel="stylesheet" href="styleguide.css" />
-    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="style2.css" />
   </head>
   <body>
     <div class="iphone">
@@ -15,7 +15,7 @@
         <div class="divider">
           <div class="top">
             <div class="skills">
-              <div class="background-graphic-s"><img class="rectangle" src="img/rectangle-4.svg" /></div>
+              <div class="background-graphic-s"></div>
               <div class="div">
                 <div class="frame"><div class="text-wrapper" data-key="skills_title">Skills</div></div>
                 <div class="skill-list">
@@ -62,42 +62,55 @@
 			<div class="software_list">
 				<div class="sl_img_frame">
 					<img class="icon" src="img/slicon1.svg" alt="slicon1" />
+					<div class="software-desc text-wrapper-3">Cinema 4D</div>
 				</div>
 				<div class="sl_img_frame">
 					<img class="icon" src="img/slicon2.svg" alt="slicon2" />
+					<div class="software-desc text-wrapper-3">After Effects</div>
 				</div>
 				<div class="sl_img_frame">
 					<img class="icon" src="img/slicon3.svg" alt="slicon3" />
+					<div class="software-desc text-wrapper-3">Unreal Engine</div>
 				</div>
 			</div>
 		  </div>
         </div>
         <img class="overlay-image" src="img/vert3.webp" />
       </div>
-      <div class="menu-container">
-        <div class="image-container">
-				<div class="menuframe">
-					<div class="bg-default" style="background-image: url('img/event_archviz.jpg');"></div>
-					<div class="bg-hover" style="background-image: url('img/event_archviz_c.jpg');"></div>
-				</div>
-				<div class="menuframe">
-					<div class="bg-default" style="background-image: url('img/animation.jpg');"></div>
-					<div class="bg-hover" style="background-image: url('img/animation_c.jpg');"></div>
-				</div>
-				<div class="menuframe">
-					<div class="bg-default" style="background-image: url('img/creative_art.jpg');"></div>
-					<div class="bg-hover" style="background-image: url('img/creative_art_c.jpg');"></div>
-				</div>
-			</div>
-        <div class="title-container">
-          <div class="text-wrapper-5" data-key="menu_archviz">EVENT ARCHVIZ</div>
-          <div class="text-wrapper-5" data-key="menu_animation">ANIMATION</div>
-          <div class="text-wrapper-5" data-key="menu_art">CREATIVE ART</div>
-        </div>
-      </div>
+<div class="menu-container">
+
+  <div class="menu-item">
+    <div class="menuframe">
+      <div class="bg-default" style="background-image: url('img/event_archviz.jpg');"></div>
+      <div class="bg-hover" style="background-image: url('img/event_archviz_c.jpg');"></div>
+    </div>
+    <div class="menu-title" data-key="menu_archviz">EVENT ARCHVIZ</div>
+	</div>
+  
+
+
+  <div class="menu-item">
+    <div class="menuframe">
+      <div class="bg-default" style="background-image: url('img/animation.jpg');"></div>
+      <div class="bg-hover" style="background-image: url('img/animation_c.jpg');"></div>
+    </div>
+    <div class="menu-title" data-key="menu_animation">ANIMATION</div>
+  </div>
+
+
+
+  <div class="menu-item">
+    <div class="menuframe">
+      <div class="bg-default" style="background-image: url('img/creative_art.jpg');"></div>
+      <div class="bg-hover" style="background-image: url('img/creative_art_c.jpg');"></div>
+    </div>
+    <div class="menu-title" data-key="menu_art">CREATIVE ART</div>
+  </div>
+
+</div>
+
     </div>
 	<script src="lang-switch.js"></script>
 	<script src="menu-tap.js"></script>
   </body>
 </html>
-
