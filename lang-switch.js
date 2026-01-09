@@ -27,7 +27,7 @@ document.addEventListener("DOMContentLoaded", () => {
       skill_motion: "3D / 2D モーション",
       skill_animator: "3D アニメーション",
       skill_xr: "XR / AR / VR",
-      skill_vfx: "3D VFX",
+      skill_vfx: "3D 視覚効果",
       role_generalist: "3DCG\nジェネラリスト",
       menu_archviz: "建築",
       menu_animation: "アニメーション",
