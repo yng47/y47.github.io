@@ -24,6 +24,10 @@ function initSlideshows() {
         // Mark as initialized so we don't bind listeners twice if stitched
         unit.classList.add('is-initialized');
 
+        if (thumbs.length > 0) {
+            updateGallery(0); 
+        }
+
         const updateGallery = (index) => {
             currentIndex = index;
             
@@ -82,4 +86,5 @@ function handleInitialAnchor() {
             }, 300);
         }
     }
+
 }
