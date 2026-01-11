@@ -4,17 +4,20 @@
  */
 
 const CONFIG = {
-    rootMarginStitch: '400px', // Start fetching early for smoothness
-    rootMarginMemory: '2000px 0px', // Large buffer to prevent "pop-in"
+    rootMarginStitch: '10% 0px 400px 0px', // Added 10% to top to catch triggers at the ceiling
+    rootMarginMemory: '2000px 0px', 
 };
 
 // Track scroll position to determine direction
-let lastScrollY = window.scrollY;
+let lastScrollY = window.pageYOffset || document.documentElement.scrollTop;
 
 // 1. STITCHING OBSERVER (Loads new pages into the current view)
 const stitchObserver = new IntersectionObserver((entries) => {
-    const currentScrollY = window.scrollY;
-    const isScrollingUp = currentScrollY < lastScrollY;
+    const currentScrollY = window.pageYOffset || document.documentElement.scrollTop;
+    
+    // Fix: If user is at the very top (0), we treat it as "ready to scroll up"
+    const isAtTop = currentScrollY <= 5;
+    const isScrollingUp = currentScrollY < lastScrollY || isAtTop;
 
     entries.forEach(entry => {
         if (entry.isIntersecting) {
@@ -24,9 +27,12 @@ const stitchObserver = new IntersectionObserver((entries) => {
             if (trigger.classList.contains('next-page-trigger')) {
                 loadSection(trigger.dataset.nextUrl, 'bottom', trigger);
             } 
-            // TOP TRIGGER: Only load if the user is moving UP (prevents accidental loads on landing)
+            // TOP TRIGGER: Load if moving UP or already at the top
             else if (trigger.classList.contains('prev-page-trigger') && isScrollingUp) {
-                loadSection(trigger.dataset.prevUrl, 'top', trigger);
+                // Ensure there is actually a URL to load
+                if (trigger.dataset.prevUrl && trigger.dataset.prevUrl !== "") {
+                    loadSection(trigger.dataset.prevUrl, 'top', trigger);
+                }
             }
         }
     });
@@ -42,8 +48,6 @@ const memoryObserver = new IntersectionObserver((entries) => {
 
         if (entry.isIntersecting) {
             section.classList.remove('is-offscreen');
-            
-            // REVIVE: Restore video source
             iframes.forEach(iframe => {
                 if (iframe.dataset.src) {
                     iframe.src = iframe.dataset.src;
@@ -51,8 +55,6 @@ const memoryObserver = new IntersectionObserver((entries) => {
             });
         } else {
             section.classList.add('is-offscreen');
-
-            // KILL: Clear source to free up RAM
             iframes.forEach(iframe => {
                 if (iframe.src && iframe.src !== 'about:blank') {
                     iframe.dataset.src = iframe.src;
@@ -85,7 +87,6 @@ async function loadSection(url, direction, trigger) {
             container.insertAdjacentHTML('beforeend', newContent);
         } 
         else if (direction === 'top') {
-            // Disable smooth scroll temporarily for pixel-perfect math
             const htmlElement = document.documentElement;
             const originalScrollBehavior = htmlElement.style.scrollBehavior;
             htmlElement.style.scrollBehavior = 'auto';
@@ -96,20 +97,15 @@ async function loadSection(url, direction, trigger) {
             trigger.remove();
             container.insertAdjacentHTML('afterbegin', newContent);
             
-            // Correction: compensate for the height of added items
             const newHeight = container.scrollHeight;
             const heightDiff = newHeight - oldHeight;
             
             window.scrollTo(0, oldScrollY + heightDiff);
-
-            // Restore original scroll behavior
             htmlElement.style.scrollBehavior = originalScrollBehavior;
         }
 
-        // Setup observers for new content
         refreshObservers();
         
-        // Re-run slideshow logic for newly added projects
         if (typeof initSlideshows === "function") {
             initSlideshows();
         }
@@ -120,12 +116,10 @@ async function loadSection(url, direction, trigger) {
 }
 
 function refreshObservers() {
-    // Watch stitching triggers
     document.querySelectorAll('.next-page-trigger, .prev-page-trigger').forEach(t => {
         stitchObserver.observe(t);
     });
     
-    // Watch project groups for memory/iframe management
     document.querySelectorAll('.project-group').forEach(s => {
         const iframes = s.querySelectorAll('iframe');
         iframes.forEach(iframe => {
@@ -133,10 +127,8 @@ function refreshObservers() {
                 iframe.dataset.src = iframe.src;
             }
         });
-
         memoryObserver.observe(s);
     });
 }
 
-// Initial initialization
 document.addEventListener('DOMContentLoaded', refreshObservers);
