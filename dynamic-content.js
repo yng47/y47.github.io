@@ -1,5 +1,5 @@
 /** 
- * DYNAMIC CONTENT MANAGER
+ * DYNAMIC CONTENT MANAGER 
  * Handles Bi-directional Stitching, Iframe Memory Killing, and Scroll Correction
  */
 
@@ -121,4 +121,5 @@ function refreshObservers() {
 }
 
 document.addEventListener('DOMContentLoaded', refreshObservers);
+
 
