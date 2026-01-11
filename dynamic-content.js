@@ -1,6 +1,6 @@
-/** 
- * DYNAMIC CONTENT MANAGER 
- * Handles Bi-directional Stitching, Iframe Memory Killing, and Scroll Correction
+/**
+ * DYNAMIC CONTENT MANAGER
+ * Handles Bi-directional Stitching, Iframe Memory Killing, and Scroll Detection
  */
 
 const CONFIG = {
@@ -9,10 +9,17 @@ const CONFIG = {
 };
 
 let lastScrollY = window.pageYOffset || document.documentElement.scrollTop;
+let userHasScrolled = false; // Guard to prevent auto-loading previous pages on landing
 
 // 1. STITCHING OBSERVER
 const stitchObserver = new IntersectionObserver((entries) => {
     const currentScrollY = window.pageYOffset || document.documentElement.scrollTop;
+    
+    // Check if user has actually moved significantly (prevents landing trigger)
+    if (!userHasScrolled && Math.abs(currentScrollY - lastScrollY) > 20) {
+        userHasScrolled = true;
+    }
+
     const isAtTop = currentScrollY <= 5;
     const isScrollingUp = currentScrollY < lastScrollY || isAtTop;
 
@@ -20,13 +27,15 @@ const stitchObserver = new IntersectionObserver((entries) => {
         if (entry.isIntersecting) {
             const trigger = entry.target;
             
+            // BOTTOM TRIGGER
             if (trigger.classList.contains('next-page-trigger')) {
-                console.log("Trigger: Bottom reached. Direction: Down.");
+                console.log("Trigger: Bottom reached.");
                 loadSection(trigger.dataset.nextUrl, 'bottom', trigger);
             } 
+            // TOP TRIGGER (Only fires if user intentionally scrolled up)
             else if (trigger.classList.contains('prev-page-trigger')) {
-                console.log("Trigger: Top reached. isScrollingUp:", isScrollingUp);
-                if (isScrollingUp && trigger.dataset.prevUrl && trigger.dataset.prevUrl !== "") {
+                if (isScrollingUp && userHasScrolled && trigger.dataset.prevUrl) {
+                    console.log("Trigger: Top reached via upward scroll.");
                     loadSection(trigger.dataset.prevUrl, 'top', trigger);
                 }
             }
@@ -41,11 +50,16 @@ const memoryObserver = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
         const section = entry.target;
         const iframes = section.querySelectorAll('iframe');
+        
         if (entry.isIntersecting) {
             section.classList.remove('is-offscreen');
-            iframes.forEach(iframe => { if (iframe.dataset.src) iframe.src = iframe.dataset.src; });
+            // REVIVE: Put source back
+            iframes.forEach(iframe => {
+                if (iframe.dataset.src) iframe.src = iframe.dataset.src;
+            });
         } else {
             section.classList.add('is-offscreen');
+            // KILL: Empty source to save CPU/RAM
             iframes.forEach(iframe => {
                 if (iframe.src && iframe.src !== 'about:blank') {
                     iframe.dataset.src = iframe.src;
@@ -59,7 +73,7 @@ const memoryObserver = new IntersectionObserver((entries) => {
 async function loadSection(url, direction, trigger) {
     if (!url || trigger.classList.contains('loading')) return;
     
-    console.log(`Starting fetch for: ${url} (Direction: ${direction})`);
+    console.log(`Fetching: ${url}`);
     trigger.classList.add('loading');
 
     try {
@@ -70,10 +84,7 @@ async function loadSection(url, direction, trigger) {
         const doc = new DOMParser().parseFromString(html, 'text/html');
         const newArea = doc.querySelector('#content-stitching-area');
         
-        if (!newArea) {
-            console.error("Critical: Could not find #content-stitching-area in fetched page.");
-            return;
-        }
+        if (!newArea) return;
 
         const container = document.getElementById('content-stitching-area');
         const newContent = newArea.innerHTML;
@@ -85,7 +96,7 @@ async function loadSection(url, direction, trigger) {
         else if (direction === 'top') {
             const htmlElement = document.documentElement;
             const originalScrollBehavior = htmlElement.style.scrollBehavior;
-            htmlElement.style.scrollBehavior = 'auto';
+            htmlElement.style.scrollBehavior = 'auto'; // Instant jump for math
 
             const oldScrollY = window.scrollY;
             const oldHeight = container.scrollHeight;
@@ -100,9 +111,13 @@ async function loadSection(url, direction, trigger) {
             htmlElement.style.scrollBehavior = originalScrollBehavior;
         }
 
-        console.log(`Success: ${url} stitched.`);
+        // Re-initialize for new content
         refreshObservers();
-        if (typeof initSlideshows === "function") initSlideshows();
+        
+        // Ensure slideshows run. window.initSlideshows is called from slideshow.js
+        if (typeof window.initSlideshows === "function") {
+            window.initSlideshows();
+        }
 
     } catch (err) {
         console.error("Stitching failed:", err);
@@ -112,14 +127,21 @@ async function loadSection(url, direction, trigger) {
 }
 
 function refreshObservers() {
+    // Stitch triggers
     document.querySelectorAll('.next-page-trigger, .prev-page-trigger').forEach(t => stitchObserver.observe(t));
+    
+    // Project groups (Memory/Iframe management)
     document.querySelectorAll('.project-group').forEach(s => {
         const iframes = s.querySelectorAll('iframe');
-        iframes.forEach(iframe => { if (!iframe.dataset.src && iframe.src !== 'about:blank') iframe.dataset.src = iframe.src; });
+        iframes.forEach(iframe => {
+            if (!iframe.dataset.src && iframe.src !== 'about:blank') {
+                iframe.dataset.src = iframe.src;
+            }
+        });
         memoryObserver.observe(s);
     });
 }
 
-document.addEventListener('DOMContentLoaded', refreshObservers);
-
-
+document.addEventListener('DOMContentLoaded', () => {
+    refreshObservers();
+});
