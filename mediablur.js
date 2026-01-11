@@ -1,4 +1,4 @@
-document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener("DOMContentLoaded", function() { 
     const images = document.querySelectorAll('.active-main');
     
     images.forEach(img => {
@@ -12,4 +12,5 @@ document.addEventListener("DOMContentLoaded", function() {
             img.classList.add('loaded');
         });
     });
+
 });
