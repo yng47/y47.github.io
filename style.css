@@ -920,8 +920,8 @@ body {
     margin-top: 10vh;
 }
 .prev-page-trigger {
-    margin-bottom: 20px;
-	height: 1px;
+    margin-bottom: 50px;
+	height: 10px;
 }
 
 /* --- MOBILE ADAPTATION --- */
@@ -986,4 +986,5 @@ body {
         height: 80px;
     }
 }
+
 
