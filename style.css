@@ -729,7 +729,7 @@ body {
     opacity: 0.3;
     font-family: 'Dela Gothic One', sans-serif;
     font-size: 1.5vh;
-	line-height: 0px;
+	line-height: 1.5vh;
     transform: rotate(-90deg) translateX(-100%);
     transform-origin: left top;
     white-space: nowrap;
@@ -986,3 +986,4 @@ body {
         height: 80px;
     }
 }
+
