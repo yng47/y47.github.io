@@ -1,41 +1,37 @@
 /**
  * DYNAMIC CONTENT MANAGER
- * Handles Bi-directional Stitching, Iframe Memory Killing, and Scroll Detection
+ * Features: Bi-directional Stitching, Iframe-only Killer, and Landing Guard
  */
 
 const CONFIG = {
     rootMarginStitch: '10% 0px 400px 0px', 
-    rootMarginMemory: '2000px 0px', 
+    rootMarginMemory: '1000px 0px', 
 };
 
 let lastScrollY = window.pageYOffset || document.documentElement.scrollTop;
-let userHasScrolled = false; // Guard to prevent auto-loading previous pages on landing
+let userHasScrolled = false; // Prevents loading previous page on landing
 
-// 1. STITCHING OBSERVER
+// 1. STITCHING OBSERVER (Handles loading new pages)
 const stitchObserver = new IntersectionObserver((entries) => {
     const currentScrollY = window.pageYOffset || document.documentElement.scrollTop;
     
-    // Check if user has actually moved significantly (prevents landing trigger)
-    if (!userHasScrolled && Math.abs(currentScrollY - lastScrollY) > 20) {
+    // Guard: User must scroll at least 50px before "Previous" triggers are active
+    if (!userHasScrolled && Math.abs(currentScrollY - lastScrollY) > 50) {
         userHasScrolled = true;
     }
 
-    const isAtTop = currentScrollY <= 5;
-    const isScrollingUp = currentScrollY < lastScrollY || isAtTop;
+    const isScrollingUp = currentScrollY < lastScrollY;
 
     entries.forEach(entry => {
         if (entry.isIntersecting) {
             const trigger = entry.target;
             
-            // BOTTOM TRIGGER
             if (trigger.classList.contains('next-page-trigger')) {
-                console.log("Trigger: Bottom reached.");
                 loadSection(trigger.dataset.nextUrl, 'bottom', trigger);
             } 
-            // TOP TRIGGER (Only fires if user intentionally scrolled up)
             else if (trigger.classList.contains('prev-page-trigger')) {
+                // Only load top if user consciously scrolled UP and we aren't at landing
                 if (isScrollingUp && userHasScrolled && trigger.dataset.prevUrl) {
-                    console.log("Trigger: Top reached via upward scroll.");
                     loadSection(trigger.dataset.prevUrl, 'top', trigger);
                 }
             }
@@ -45,40 +41,49 @@ const stitchObserver = new IntersectionObserver((entries) => {
     lastScrollY = currentScrollY;
 }, { rootMargin: CONFIG.rootMarginStitch });
 
-// 2. MEMORY OBSERVER (Toggles visibility and kills/revives Iframes)
+// 2. MEMORY OBSERVER (Kills Iframes + Native Image Optimization)
 const memoryObserver = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
         const section = entry.target;
         const iframes = section.querySelectorAll('iframe');
-        
+
         if (entry.isIntersecting) {
+            // REVIVE IFRAMES
+            section.style.contentVisibility = 'visible';
             section.classList.remove('is-offscreen');
-            // REVIVE: Put source back
+            
             iframes.forEach(iframe => {
-                if (iframe.dataset.src) iframe.src = iframe.dataset.src;
+                if (iframe.dataset.src) {
+                    iframe.src = iframe.dataset.src;
+                    console.log("Iframe Revived:", iframe.dataset.src);
+                }
             });
         } else {
+            // KILL IFRAMES + NATIVE OPTIMIZE IMAGES
+            section.style.contentVisibility = 'auto'; // Browser skips rendering far-away images
             section.classList.add('is-offscreen');
-            // KILL: Empty source to save CPU/RAM
+
             iframes.forEach(iframe => {
                 if (iframe.src && iframe.src !== 'about:blank') {
-                    iframe.dataset.src = iframe.src;
-                    iframe.src = 'about:blank';
+                    iframe.dataset.src = iframe.src; // Store real URL
+                    iframe.src = 'about:blank';      // Kill process
+                    console.log("Iframe Killed to save RAM");
                 }
             });
         }
     });
 }, { rootMargin: CONFIG.rootMarginMemory });
 
+// 3. CORE LOADING LOGIC
 async function loadSection(url, direction, trigger) {
-    if (!url || trigger.classList.contains('loading')) return;
+    if (!url || url === "" || trigger.classList.contains('loading')) return;
     
-    console.log(`Fetching: ${url}`);
     trigger.classList.add('loading');
+    console.log(`Stitching: ${url} to ${direction}`);
 
     try {
         const response = await fetch(url);
-        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+        if (!response.ok) throw new Error(`Fetch failed: ${response.status}`);
         
         const html = await response.text();
         const doc = new DOMParser().parseFromString(html, 'text/html');
@@ -96,7 +101,7 @@ async function loadSection(url, direction, trigger) {
         else if (direction === 'top') {
             const htmlElement = document.documentElement;
             const originalScrollBehavior = htmlElement.style.scrollBehavior;
-            htmlElement.style.scrollBehavior = 'auto'; // Instant jump for math
+            htmlElement.style.scrollBehavior = 'auto'; // Disable smooth for math
 
             const oldScrollY = window.scrollY;
             const oldHeight = container.scrollHeight;
@@ -111,30 +116,32 @@ async function loadSection(url, direction, trigger) {
             htmlElement.style.scrollBehavior = originalScrollBehavior;
         }
 
-        // Re-initialize for new content
+        // Re-run setup for the new HTML
         refreshObservers();
-        
-        // Ensure slideshows run. window.initSlideshows is called from slideshow.js
         if (typeof window.initSlideshows === "function") {
             window.initSlideshows();
         }
 
     } catch (err) {
-        console.error("Stitching failed:", err);
+        console.error("Stitching error:", err);
     } finally {
         trigger.classList.remove('loading');
     }
 }
 
+// 4. INITIALIZATION
 function refreshObservers() {
-    // Stitch triggers
-    document.querySelectorAll('.next-page-trigger, .prev-page-trigger').forEach(t => stitchObserver.observe(t));
+    // Observe Triggers
+    document.querySelectorAll('.next-page-trigger, .prev-page-trigger').forEach(t => {
+        stitchObserver.observe(t);
+    });
     
-    // Project groups (Memory/Iframe management)
+    // Observe Project Groups
     document.querySelectorAll('.project-group').forEach(s => {
+        // Pre-capture iframe sources for the killer
         const iframes = s.querySelectorAll('iframe');
         iframes.forEach(iframe => {
-            if (!iframe.dataset.src && iframe.src !== 'about:blank') {
+            if (iframe.src && iframe.src !== 'about:blank' && !iframe.dataset.src) {
                 iframe.dataset.src = iframe.src;
             }
         });
@@ -142,6 +149,4 @@ function refreshObservers() {
     });
 }
 
-document.addEventListener('DOMContentLoaded', () => {
-    refreshObservers();
-});
+document.addEventListener('DOMContentLoaded', refreshObservers);
