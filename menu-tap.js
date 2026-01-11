@@ -1,21 +1,25 @@
 document.addEventListener("DOMContentLoaded", () => {
-  if ("ontouchstart" in window) {
-    
-    // Function to handle toggle logic
-    const setupToggle = (selector) => {
-      const items = document.querySelectorAll(selector);
-      items.forEach(item => {
-        item.addEventListener('click', (e) => {
-          // Remove active from others in THIS group only
-          items.forEach(i => { if(i !== item) i.classList.remove('active'); });
-          // Toggle the clicked one
-          item.classList.toggle('active');
-        });
-      });
-    };
+  const isTouch = ("ontouchstart" in window);
+  const menuLinks = document.querySelectorAll('.menu-link');
 
-    // Initialize for both groups
-    setupToggle('.menuframe');
-    setupToggle('.sl_img_frame');
-  }
+  menuLinks.forEach(link => {
+    const frame = link.querySelector('.menuframe');
+
+    link.addEventListener('click', (e) => {
+      if (isTouch) {
+        // If it's mobile and NOT already active, stop the link and show hover state
+        if (!frame.classList.contains('active')) {
+          e.preventDefault(); // Stop navigation
+          
+          // Remove active from all other frames
+          document.querySelectorAll('.menuframe').forEach(f => f.classList.remove('active'));
+          
+          // Add active to this one
+          frame.classList.add('active');
+        } 
+        // If it IS already active, the link (href) will function normally on the second tap
+      }
+      // On Desktop (isTouch = false), the link works immediately on click
+    });
+  });
 });
