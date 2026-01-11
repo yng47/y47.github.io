@@ -9,7 +9,6 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 function initSlideshows() {
-    // We only target slideshows that haven't been set up yet
     const slideshows = document.querySelectorAll('.slideshow-unit:not(.is-initialized)');
 
     slideshows.forEach(unit => {
@@ -21,33 +20,21 @@ function initSlideshows() {
 
         if (!mainImg || thumbs.length === 0) return;
 
-        // Mark as initialized so we don't bind listeners twice if stitched
-        unit.classList.add('is-initialized');
-
-        if (thumbs.length > 0) {
-            updateGallery(0); 
-        }
-
+        // 1. DEFINE the function first
         const updateGallery = (index) => {
             currentIndex = index;
-            
-            // 1. Swap the image
             const highResSrc = thumbs[currentIndex].getAttribute('data-full');
             
-            // Reset blur-reveal for the new image
             mainImg.classList.remove('loaded');
             mainImg.src = highResSrc;
 
-            // Handle the reveal once the new image is fetched
             mainImg.onload = () => mainImg.classList.add('loaded');
             if (mainImg.complete) mainImg.classList.add('loaded');
             
-            // 2. Update active UI
             thumbs.forEach((t, i) => {
                 t.classList.toggle('active', i === currentIndex);
             });
 
-            // 3. AUTO-SCROLL THUMBNAILS
             thumbs[currentIndex].scrollIntoView({
                 behavior: 'smooth',
                 block: 'nearest',
@@ -55,23 +42,26 @@ function initSlideshows() {
             });
         };
 
-        // Click on thumbnail
+        // 2. MARK as initialized
+        unit.classList.add('is-initialized');
+
+        // 3. NOW it is safe to call it for the first image
+        updateGallery(0);
+
+        // 4. Set up listeners
         thumbs.forEach((thumb, index) => {
             thumb.addEventListener('click', () => updateGallery(index));
         });
 
-        // Click on arrows
         if (nextBtn) {
             nextBtn.addEventListener('click', () => {
-                const nextIndex = (currentIndex + 1) % thumbs.length;
-                updateGallery(nextIndex);
+                updateGallery((currentIndex + 1) % thumbs.length);
             });
         }
 
         if (prevBtn) {
             prevBtn.addEventListener('click', () => {
-                const prevIndex = (currentIndex - 1 + thumbs.length) % thumbs.length;
-                updateGallery(prevIndex);
+                updateGallery((currentIndex - 1 + thumbs.length) % thumbs.length);
             });
         }
     });
@@ -86,5 +76,4 @@ function handleInitialAnchor() {
             }, 300);
         }
     }
-
 }
