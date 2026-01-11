@@ -7,8 +7,10 @@ document.addEventListener("DOMContentLoaded", () => {
     handleInitialAnchor();
 });
 
-// 1. Define the function OUTSIDE the loop so it is "hoisted" and ready
+// We define this as a standard function so it's "hoisted" (available immediately)
 function updateGallery(unit, index, thumbs, mainImg) {
+    if (!thumbs[index]) return;
+    
     const highResSrc = thumbs[index].getAttribute('data-full');
     
     mainImg.classList.remove('loaded');
@@ -36,16 +38,15 @@ window.initSlideshows = function() {
         const thumbs = unit.querySelectorAll('.thumb');
         const prevBtn = unit.querySelector('.prev');
         const nextBtn = unit.querySelector('.next');
-        let currentIndex = 0;
-
+        
         if (!mainImg || thumbs.length === 0) return;
 
         unit.classList.add('is-initialized');
+        let currentIndex = 0;
 
-        // Initial load
+        // Force initial load so display isn't empty
         updateGallery(unit, 0, thumbs, mainImg);
 
-        // Listeners
         thumbs.forEach((thumb, index) => {
             thumb.addEventListener('click', () => {
                 currentIndex = index;
@@ -73,9 +74,7 @@ function handleInitialAnchor() {
     if (window.location.hash) {
         const target = document.querySelector(window.location.hash);
         if (target) {
-            setTimeout(() => {
-                target.scrollIntoView({ behavior: 'smooth' });
-            }, 300);
+            setTimeout(() => target.scrollIntoView({ behavior: 'smooth' }), 300);
         }
     }
 }
