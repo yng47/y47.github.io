@@ -8,7 +8,8 @@ document.addEventListener("DOMContentLoaded", () => {
     handleInitialAnchor();
 });
 
-function initSlideshows() {
+// Attach to window so dynamic-content.js can always find it
+window.initSlideshows = function() {
     const slideshows = document.querySelectorAll('.slideshow-unit:not(.is-initialized)');
 
     slideshows.forEach(unit => {
@@ -20,35 +21,38 @@ function initSlideshows() {
 
         if (!mainImg || thumbs.length === 0) return;
 
-        // 1. DEFINE the function first
-        const updateGallery = (index) => {
+        // Hoisted function declaration to avoid "Initialization" errors
+        function updateGallery(index) {
             currentIndex = index;
             const highResSrc = thumbs[currentIndex].getAttribute('data-full');
             
+            // Handle image swap and blur reveal
             mainImg.classList.remove('loaded');
             mainImg.src = highResSrc;
 
             mainImg.onload = () => mainImg.classList.add('loaded');
             if (mainImg.complete) mainImg.classList.add('loaded');
             
+            // UI Updates
             thumbs.forEach((t, i) => {
                 t.classList.toggle('active', i === currentIndex);
             });
 
+            // Scroll thumbnail into view
             thumbs[currentIndex].scrollIntoView({
                 behavior: 'smooth',
                 block: 'nearest',
                 inline: 'center'
             });
-        };
+        }
 
-        // 2. MARK as initialized
+        // Mark as initialized BEFORE calling updateGallery
         unit.classList.add('is-initialized');
 
-        // 3. NOW it is safe to call it for the first image
+        // Load first image immediately
         updateGallery(0);
 
-        // 4. Set up listeners
+        // Listeners
         thumbs.forEach((thumb, index) => {
             thumb.addEventListener('click', () => updateGallery(index));
         });
@@ -65,7 +69,7 @@ function initSlideshows() {
             });
         }
     });
-}
+};
 
 function handleInitialAnchor() {
     if (window.location.hash) {
