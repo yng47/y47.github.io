@@ -6,18 +6,19 @@
     <title>Work</title>
     <link rel="stylesheet" href="style.css">
 </head>
-<body class="work-page">
+<body class="work-page" id="archviz-page">
 
     <a href="index.html" class="logo-back">
         <img class="logo" src="img/logo-y47.svg" alt="Logo">
     </a>
-
-    <div id="content-stitching-area" class="portfolio-container">
-        
-        <section id="archviz" class="project-group" data-url="work-archviz.html">
-            <aside class="group-label">
-                <h2 class="text-wrapper-3">ARCHVIZ EVENT</h2>
+<aside class="group-label">
+    <a href="work-archviz.html" class="nav-link archviz-link">ARCHVIZ</a>
+    <a href="work-animation.html" class="nav-link animation-link">ANIMATION</a>
+    <a href="work-creative-art.html" class="nav-link creative-link">CREATIVE ART</a>
             </aside>
+    <div class="portfolio-container">
+        
+            
 
             <div class="group-content">
 			
@@ -44,7 +45,7 @@
 
         <div class="media-unit slideshow-unit">
             <h3 class="text-wrapper-2 project-title">photos</h3>
-            <div class="main-display">
+            <div class="main-display" style="aspect-ratio: 3 / 2;">
                 <img src="img/archviz/yandexgodelozavr24-25/yandexgodelozavr24-25_06.webp" loading="lazy" class="active-main">
                 <div class="arrows">
                     <span class="prev">&#10094;</span><span class="next">&#10095;</span>
@@ -758,16 +759,14 @@
 </article>
 				
             </div>
-        </section>
+        
 		
-		<div class="next-page-trigger" data-next-url="work-animation.html">
-            <div class="loading-status">Loading more projects...</div>
-		</div>
+		<div class="page-transition">
+    <a href="work-animation.html" class="text-wrapper-2">TO THE ANIMATION</a>
+</div>
     </div>
 
-	<script src="dynamic-content.js"></script>
 	<script src="mediablur.js"></script>
     <script src="slideshow.js"></script>
 </body>
-
 </html>
