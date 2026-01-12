@@ -1,80 +1,45 @@
-/**
- * Portfolio Work Page Logic
- */
-
 document.addEventListener("DOMContentLoaded", () => {
     initSlideshows();
-    handleInitialAnchor();
 });
 
-// We define this as a standard function so it's "hoisted" (available immediately)
-function updateGallery(unit, index, thumbs, mainImg) {
-    if (!thumbs[index]) return;
-    
-    const highResSrc = thumbs[index].getAttribute('data-full');
-    
-    mainImg.classList.remove('loaded');
-    mainImg.src = highResSrc;
-
-    mainImg.onload = () => mainImg.classList.add('loaded');
-    if (mainImg.complete) mainImg.classList.add('loaded');
-    
-    thumbs.forEach((t, i) => {
-        t.classList.toggle('active', i === index);
-    });
-
-    thumbs[index].scrollIntoView({
-        behavior: 'smooth',
-        block: 'nearest',
-        inline: 'center'
-    });
-}
-
-window.initSlideshows = function() {
-    const slideshows = document.querySelectorAll('.slideshow-unit:not(.is-initialized)');
+function initSlideshows() {
+    const slideshows = document.querySelectorAll('.slideshow-unit');
 
     slideshows.forEach(unit => {
         const mainImg = unit.querySelector('.active-main');
         const thumbs = unit.querySelectorAll('.thumb');
         const prevBtn = unit.querySelector('.prev');
         const nextBtn = unit.querySelector('.next');
-        
-        if (!mainImg || thumbs.length === 0) return;
-
-        unit.classList.add('is-initialized');
         let currentIndex = 0;
 
-        // Force initial load so display isn't empty
-        updateGallery(unit, 0, thumbs, mainImg);
+        if (!mainImg || thumbs.length === 0) return;
+
+        // Added 'isInitial' parameter to prevent jumping on load
+        function updateGallery(index, isInitial = false) {
+            currentIndex = index;
+            const highResSrc = thumbs[currentIndex].getAttribute('data-full');
+            mainImg.src = highResSrc;
+            
+            thumbs.forEach((t, i) => t.classList.toggle('active', i === currentIndex));
+            
+            // ONLY scroll into view if it's NOT the first time loading
+            if (!isInitial) {
+                thumbs[currentIndex].scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'nearest',
+                    inline: 'center'
+                });
+            }
+        }
+
+        // Pass 'true' here to tell the function: "Don't jump the screen yet"
+        updateGallery(0, true);
 
         thumbs.forEach((thumb, index) => {
-            thumb.addEventListener('click', () => {
-                currentIndex = index;
-                updateGallery(unit, currentIndex, thumbs, mainImg);
-            });
+            thumb.addEventListener('click', () => updateGallery(index));
         });
 
-        if (nextBtn) {
-            nextBtn.addEventListener('click', () => {
-                currentIndex = (currentIndex + 1) % thumbs.length;
-                updateGallery(unit, currentIndex, thumbs, mainImg);
-            });
-        }
-
-        if (prevBtn) {
-            prevBtn.addEventListener('click', () => {
-                currentIndex = (currentIndex - 1 + thumbs.length) % thumbs.length;
-                updateGallery(unit, currentIndex, thumbs, mainImg);
-            });
-        }
+        if (nextBtn) nextBtn.addEventListener('click', () => updateGallery((currentIndex + 1) % thumbs.length));
+        if (prevBtn) prevBtn.addEventListener('click', () => updateGallery((currentIndex - 1 + thumbs.length) % thumbs.length));
     });
-};
-
-function handleInitialAnchor() {
-    if (window.location.hash) {
-        const target = document.querySelector(window.location.hash);
-        if (target) {
-            setTimeout(() => target.scrollIntoView({ behavior: 'smooth' }), 300);
-        }
-    }
 }
