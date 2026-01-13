@@ -2,7 +2,7 @@ body {
   background-color: #f34f22;
   display: flex;
   justify-content: center;  /* horizontal centering */
-  align-items: flex-start;  /* optional: vertical alignment */
+  align-items: flex-start;  /* optional: vertical alignment */ 
   height: 100vh;
   overflow: hidden;
   margin: 0;
@@ -1265,5 +1265,6 @@ body#creative-page .creative-link {
         height: 80px;
     }
 }
+
 
 
