@@ -1,5 +1,5 @@
 const menuBtn = document.getElementById('menuBtn');
-const popupMenu = document.getElementById('popupMenu');
+const popupMenu = document.getElementById('popupMenu'); 
 
 menuBtn.addEventListener('click', (e) => {
     popupMenu.classList.toggle('show');
@@ -15,4 +15,5 @@ document.addEventListener('click', (event) => {
         // Remove the active class when clicking outside
         menuBtn.classList.remove('active');
     }
+
 });
