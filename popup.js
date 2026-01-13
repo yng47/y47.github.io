@@ -7,7 +7,7 @@ menuBtn.addEventListener('click', (e) => {
     menuBtn.classList.toggle('active');
     
     e.stopPropagation();
-});
+}); 
 
 document.addEventListener('click', (event) => {
     if (!popupMenu.contains(event.target)) {
@@ -17,3 +17,4 @@ document.addEventListener('click', (event) => {
     }
 
 });
+
