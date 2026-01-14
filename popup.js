@@ -5,7 +5,7 @@ menuBtn.addEventListener('click', (e) => {
     popupMenu.classList.toggle('show');
     // Toggle the active class on the button itself
     menuBtn.classList.toggle('active');
-    
+     
     e.stopPropagation();
 }); 
 
@@ -17,5 +17,6 @@ document.addEventListener('click', (event) => {
     }
 
 });
+
 
 
