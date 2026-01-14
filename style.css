@@ -863,7 +863,7 @@ body {
 	padding: 10px; /* Internal spacing */
 	margin: 15px 0; /* Creates the "gaps" you requested */
 	color: #000;
-	font-family: /*"Neulis_Sans_Black",*/ Noto Sans JP;
+	font-family: /*"Neulis_Sans_Black",*/ "Noto Sans JP";
 	font-weight: 900;
 	font-size: 1.5vh;
     white-space: nowrap;
@@ -1265,6 +1265,7 @@ body#creative-page .creative-link {
         height: 80px;
     }
 }
+
 
 
 
