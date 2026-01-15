@@ -2,10 +2,10 @@ body {
   background-color: #f34f22;
   display: flex;
   justify-content: center;  /* horizontal centering */
-  align-items: flex-start;  /* optional: vertical alignment */ 
+  align-items: flex-start;  /* optional: vertical alignment */
   height: 100vh;
-  overflow: hidden; 
-  margin: 0; 
+  overflow: hidden;
+  margin: 0;
   padding: 0;
 }
 
@@ -171,7 +171,7 @@ body {
   text-decoration: none;
 }
 
-.iphone .sidebar {
+.sidebar {
   display: flex;
   flex-direction: column;
   width: 7.5%;
@@ -180,7 +180,7 @@ body {
   align-self: stretch;
 }
 
-.iphone .lang-switch-eng {
+.lang-switch-eng {
   display: flex;  
   flex-direction: column;  
   width: 87%;                 
@@ -190,8 +190,8 @@ body {
   background-color: #0b030b;
 }
 
-.iphone .lang-switch-eng .eng,
-.iphone .lang-switch-eng .jp {
+.lang-switch-eng .eng,
+.lang-switch-eng .jp {
   flex: 1;                     
   position: relative;
   display: flex;
@@ -200,8 +200,8 @@ body {
   cursor: pointer;
 }
 
-.iphone .lang-switch-eng .eng .rectangle-2,
-.iphone .lang-switch-eng .jp .rectangle-2 {
+.lang-switch-eng .eng .rectangle-2,
+.lang-switch-eng .jp .rectangle-2 {
   position: absolute;
   top: 5%;
   bottom: auto;
@@ -224,13 +224,13 @@ body {
   white-space: nowrap;
 }
 
-.iphone .lang-switch-eng .eng.active .rectangle-2{
+.lang-switch-eng .eng.active .rectangle-2{
   opacity: 1;
   top: 5%;
   bottom: auto;
   
 }
-.iphone .lang-switch-eng .jp.active .rectangle-2 {
+.lang-switch-eng .jp.active .rectangle-2 {
   opacity: 1;
   top: auto;
   bottom: 5%;
@@ -863,7 +863,7 @@ body {
 	padding: 10px; /* Internal spacing */
 	margin: 15px 0; /* Creates the "gaps" you requested */
 	color: #000;
-	font-family: "Noto Sans JP";
+	font-family: /*"Neulis_Sans_Black",*/ "Noto Sans JP";
 	font-weight: 900;
 	font-size: 1.5vh;
     white-space: nowrap;
@@ -1016,6 +1016,13 @@ body#creative-page .creative-link {
     width: 100% !important;
     height: 110% !important; /* Slightly taller to hide the Instagram footer */
     border: none;
+}
+
+.custom-video-player {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;  
+    display: block;
 }
 
 /* --- SLIDESHOW ELEMENTS --- */
@@ -1265,10 +1272,3 @@ body#creative-page .creative-link {
         height: 80px;
     }
 }
-
-
-
-
-
-
-
