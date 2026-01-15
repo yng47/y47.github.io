@@ -1,9 +1,10 @@
 document.addEventListener("DOMContentLoaded", () => {
   const switchContainer = document.querySelector('.lang-switch-eng');
-  const eng = switchContainer.querySelector('.eng');
-  const jp = switchContainer.querySelector('.jp');
   
-  // We use querySelectorAll here so it doesn't break if the element is missing
+  // Safety check: if the switcher isn't on this page, we only need to apply the saved language
+  const eng = switchContainer ? switchContainer.querySelector('.eng') : null;
+  const jp = switchContainer ? switchContainer.querySelector('.jp') : null;
+  
   const roleElements = document.querySelectorAll('.element-generalist');
 
   const translations = {
@@ -37,14 +38,23 @@ document.addEventListener("DOMContentLoaded", () => {
     // 1. Save the choice to the browser
     localStorage.setItem("userLanguage", lang);
 
-    // 2. Update all standard text (the menu links you just tagged)
+    // 2. Update all text + apply CSS classes for rotation/styling
     document.querySelectorAll("[data-key]").forEach(el => {
       const key = el.dataset.key;
       const text = translations[lang][key];
       if (text) el.textContent = text;
+
+      // Apply classes to trigger your CSS transform: rotate(0deg)
+      if (lang === "jp") {
+        el.classList.add("lang-jp");
+        el.classList.remove("lang-en");
+      } else {
+        el.classList.add("lang-en");
+        el.classList.remove("lang-jp");
+      }
     });
 
-    // 3. Update specific "Role" elements if they exist on the page
+    // 3. Update "Role" elements specifically if they exist
     roleElements.forEach(el => {
       el.textContent = translations[lang].role_generalist;
       if (lang === "en") {
@@ -56,13 +66,15 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
 
-    // 4. Update the Toggle Buttons UI
-    if (lang === "en") {
-      eng.classList.add("active");
-      jp.classList.remove("active");
-    } else {
-      jp.classList.add("active");
-      eng.classList.remove("active");
+    // 4. Update the Toggle Buttons UI (only if they exist on this page)
+    if (eng && jp) {
+      if (lang === "en") {
+        eng.classList.add("active");
+        jp.classList.remove("active");
+      } else {
+        jp.classList.add("active");
+        eng.classList.remove("active");
+      }
     }
   }
 
@@ -70,7 +82,11 @@ document.addEventListener("DOMContentLoaded", () => {
   const savedLang = localStorage.getItem("userLanguage") || "en";
   applyLanguage(savedLang);
 
-  // CLICK EVENTS
-  eng.addEventListener("click", () => applyLanguage("en"));
-  jp.addEventListener("click", () => applyLanguage("jp"));
+  // CLICK EVENTS (with safety checks)
+  if (eng) {
+    eng.addEventListener("click", () => applyLanguage("en"));
+  }
+  if (jp) {
+    jp.addEventListener("click", () => applyLanguage("jp"));
+  }
 });
