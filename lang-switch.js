@@ -1,13 +1,11 @@
-// lang-switch.js
 document.addEventListener("DOMContentLoaded", () => {
   const switchContainer = document.querySelector('.lang-switch-eng');
   const eng = switchContainer.querySelector('.eng');
   const jp = switchContainer.querySelector('.jp');
-  const roleElement = document.querySelector('.element-generalist');
+  
+  // We use querySelectorAll here so it doesn't break if the element is missing
+  const roleElements = document.querySelectorAll('.element-generalist');
 
-  // ----------------------------------
-  // 1) TEXT DICTIONARY
-  // ----------------------------------
   const translations = {
     en: {
       skills_title: "Skills",
@@ -35,47 +33,44 @@ document.addEventListener("DOMContentLoaded", () => {
     },
   };
 
-  // ----------------------------------
-  // 2) FUNCTION TO APPLY LANGUAGE
-  // ----------------------------------
   function applyLanguage(lang) {
-    // Update all elements with data-key
+    // 1. Save the choice to the browser
+    localStorage.setItem("userLanguage", lang);
+
+    // 2. Update all standard text (the menu links you just tagged)
     document.querySelectorAll("[data-key]").forEach(el => {
       const key = el.dataset.key;
       const text = translations[lang][key];
-      if (!text) return;
-      el.textContent = text;
+      if (text) el.textContent = text;
     });
 
-    // Update role element text + font/size
-    roleElement.textContent = translations[lang].role_generalist;
+    // 3. Update specific "Role" elements if they exist on the page
+    roleElements.forEach(el => {
+      el.textContent = translations[lang].role_generalist;
+      if (lang === "en") {
+        el.classList.add("lang-en");
+        el.classList.remove("lang-jp");
+      } else {
+        el.classList.add("lang-jp");
+        el.classList.remove("lang-en");
+      }
+    });
+
+    // 4. Update the Toggle Buttons UI
     if (lang === "en") {
-      roleElement.classList.add("lang-en");
-      roleElement.classList.remove("lang-jp");
+      eng.classList.add("active");
+      jp.classList.remove("active");
     } else {
-      roleElement.classList.add("lang-jp");
-      roleElement.classList.remove("lang-en");
+      jp.classList.add("active");
+      eng.classList.remove("active");
     }
   }
 
-  // ----------------------------------
-  // 3) INITIALIZE DEFAULT LANGUAGE
-  // ----------------------------------
-  applyLanguage("en");
-  eng.classList.add("active");
+  // INITIALIZE: Check memory first, then default to English
+  const savedLang = localStorage.getItem("userLanguage") || "en";
+  applyLanguage(savedLang);
 
-  // ----------------------------------
-  // 4) SWITCH HANDLERS
-  // ----------------------------------
-  eng.addEventListener("click", () => {
-    eng.classList.add("active");
-    jp.classList.remove("active");
-    applyLanguage("en");
-  });
-
-  jp.addEventListener("click", () => {
-    jp.classList.add("active");
-    eng.classList.remove("active");
-    applyLanguage("jp");
-  });
+  // CLICK EVENTS
+  eng.addEventListener("click", () => applyLanguage("en"));
+  jp.addEventListener("click", () => applyLanguage("jp"));
 });
