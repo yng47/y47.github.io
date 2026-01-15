@@ -871,6 +871,10 @@ body {
 	opacity: 0.1;
 }
 
+.nav-link.lang-jp {
+    transform: rotate(0deg);
+}
+
 .nav-link:hover {
     opacity: 0.3;
 }
@@ -1272,3 +1276,4 @@ body#creative-page .creative-link {
         height: 80px;
     }
 }
+
