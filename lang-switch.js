@@ -18,7 +18,8 @@ document.addEventListener("DOMContentLoaded", () => {
       role_generalist: "3DCG\nGENERALIST",
       menu_archviz: "EVENT ARCHVIZ",
       menu_animation: "ANIMATION",
-      menu_art: "CREATIVE ART"
+      menu_art: "CREATIVE ART",
+      menu_ai: "AI ART"
     },
     jp: {
       skills_title: "スキル",
@@ -30,7 +31,8 @@ document.addEventListener("DOMContentLoaded", () => {
       role_generalist: "3DCG\nジェネラリスト",
       menu_archviz: "建築",
       menu_animation: "アニメーション",
-      menu_art: "クリエイティブアート"
+      menu_art: "クリエイティブアート",
+      menu_ai: "AIアート"
     },
   };
 
