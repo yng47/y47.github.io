@@ -882,7 +882,7 @@ body {
 body#archviz-page .archviz-link,
 body#animation-page .animation-link,
 body#creative-page .creative-link,
-body#creative-page .ai-link {
+body#ai-page .ai-link {
     opacity: 0.5;
 }
 
@@ -1217,7 +1217,7 @@ body#creative-page .ai-link {
 	body#archviz-page .archviz-link,
 	body#animation-page .animation-link,
 	body#creative-page .creative-link
-	body#creative-page .ai-link {
+	body#ai-page .ai-link {
 		opacity: 1;
 	}
 	
