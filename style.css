@@ -379,7 +379,7 @@ body {
 
 .menuframe {
   position: relative;
-  width: 11vh;
+  width: 8.25vh;
   aspect-ratio: 1 / 1;
   border-radius: 1vh;
   overflow: hidden;
@@ -514,7 +514,7 @@ body {
 }
 
 .menuframe {
-  width: 17vh;
+  width: 12.75vh;
 }
 
 .iphone .menu-title {
@@ -637,7 +637,7 @@ body {
   }
 
 .menuframe {
-  width: 20vh;
+  width: 15vh; 
 }
 
 .iphone .menu-title {
